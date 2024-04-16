@@ -230,7 +230,7 @@ const Footer = () => {
     <div className="footer-bottom">
         <div className="container">
             <div className="section-wrapper">
-                <p>&copy; 2023 <Link to="/">Shop Cart</Link> Designed by <a href="https://themeforest.net/user/CodexCoder" target="_blank">XYZ</a> </p>
+
                 <div className="footer-bottom-list">
                     {footerbottomList.map((val, i) => (
                         <a href={val.link} key={i}>{val.text}</a>
