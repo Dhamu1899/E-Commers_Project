@@ -7,10 +7,10 @@ const title = "Our Products";
 
 const ProductData = [
     {
-        imgUrl: 'src/assets/images/categoryTab/01.jpg',
+        imgUrl: 'https://e-commers-project-pt1o6ownf-dhamu1899s-projects.vercel.app/assets/logo-03b782f5.png',
         cate: 'Shoes',
         title: 'Nike Premier X',
-        author: 'assets/images/course/author/01.jpg',
+        author: 'https://e-commers-project-pt1o6ownf-dhamu1899s-projects.vercel.app/assets/logo-03b782f5.png',
         brand: 'Nike',
         price: '₹199.00',
         id: 1,
