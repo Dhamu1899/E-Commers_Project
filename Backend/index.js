@@ -1,46 +1,55 @@
-// server.js
-
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
-// Middleware
-app.use(bodyParser.json());
+// Connect to MongoDB Atlas
+mongoose.connect('mongodb+srv://Dhamu:Dhamu123@ecom.suvfsqp.mongodb.net/?retryWrites=true&w=majority&appName=ecom', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => console.error(err));
 
-// MongoDB Atlas Connection
-const MONGODB_URI = 'your_mongodb_connection_string';
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('Error connecting to MongoDB:', err));
-
-// Define User Schema
+// Define User schema
 const userSchema = new mongoose.Schema({
   name: String,
   email: String,
   password: String
 });
 
+// Create User model
 const User = mongoose.model('User', userSchema);
 
-// Define Signup Route
-app.post('/api/signup', async (req, res) => {
+// Middleware to parse JSON bodies
+app.use(express.json());
+
+// Route to handle user registration
+app.post('/new-user', async (req, res) => {
   try {
     const { name, email, password } = req.body;
+
+    
+
+    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ error: 'User already exists with this email' });
+      return res.status(400).json({ error: 'User already exists' });
     }
+
+    // Create new user
     const newUser = new User({ name, email, password });
     await newUser.save();
-    res.status(201).json({ message: 'User created successfully', user: newUser });
+
+    res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
-    console.error('Error creating user:', error);
+    console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// Start Server
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
